@@ -1,7 +1,7 @@
 
 info: This should be included  the submission for Lab 1.
 
-## What is complaint?
+### What is complaint?
 
 #### Should complaint be an entity set or a relation between user and employee?
 
