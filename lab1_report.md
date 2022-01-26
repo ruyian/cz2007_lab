@@ -1,16 +1,17 @@
-## Lab 1 report
+# Lab 1 report
 
-### Assumptions made
-1. "shop name" is the key for the shop entity set since all the shops have unique names
-2. The maker needs to be recorded for a product. We assume there is only one maker for each product, and design it as an attribute.
-3. Each complaint has a unique "complaint id" that can be used to identify complaints.
+## Assumptions made
+1. "*Shop_name*" is the key for the **shop** entity set since all the shops have unique names.
+2. The *maker* needs to be recorded for a product. We assume there is only one maker for each product, and design it as an attribute.
+3. Each **complaint** has a unique "*complaint id*" that can be used to identify complaints.
 4. Users are not allowed to make a complaint about the product nor give a rating of the product unless they have made an order. Users are free to make complaints about any shops.
-5. One order may contain many products which have different delivery dates
-6. Relevant timestamps are recorded upon the completion of the action it refers to
+5. One order may contain many products which have different delivery dates.
+6. Relevant timestamps are recorded upon the completion of the action it refers to.
 7. An order may consist of different products from different shops. Thus each product in the order may have different status (some shops have delivered while some have not)
 8. A user can check the status of the complaints he has made using services backed by this database system.
 
-### Discussion outcome
+
+## Discussion outcome
 
 **Product** has two subclass entity sets, namely **products in shop** and **products on order**. This is because these two share common attributes such as maker, category. However, they are essentially different as **product in shop** has unique attributes like quantity in stock and unique relationship to **price record** whereas **product on order** has unique attributes such as quantity in order, status and a relationship with **order**.
 
