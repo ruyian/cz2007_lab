@@ -7,9 +7,7 @@ For lab 1, let's use https://app.diagrams.net/ for our drawing. Manually upload 
 
 
 todo:
-check the many-to-many/m-1/1-1 and referential integrity in the diagram
-do not use multiple name on any thing at all!!
-
-
 User - check status of the complaint? - necessary as a relation?
+
+esp 
 
