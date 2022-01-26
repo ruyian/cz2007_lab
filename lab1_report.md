@@ -9,6 +9,7 @@
 6. Relevant timestamps are recorded upon the completion of the action it refers to.
 7. An order may consist of different products from different shops. Thus each product in the order may have different status (some shops have delivered while some have not)
 8. A user can check the status of the complaints he has made using services backed by this database system.
+9. A user makes an order of multiple products at one time instance. All the products in that orders are bought at the same timestamp.
 
 
 ## Discussion outcome
@@ -24,3 +25,5 @@ We choose to make **products on order** a subclass of **product** and a weak ent
 **Price record** is a weak entity set of **product in shop** because we would like to keep track of all the changes in price and an attribute could not do the intended job.
 
 Since the users can make complaints about both shops and products, we classify two subclass entity set from the general **complaint** superclass, **complaint about product** and **complaint about shop** respectively, both having unique relationship either to **product on order** or **shop**.
+
+We decide not to include average rating and number of rating as attributes of **product in shop** as it can be computed.
