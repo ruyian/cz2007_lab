@@ -12,7 +12,7 @@ In addition, there should be more than one relationship between user and complai
 
 It shoud not. If a user complains about one product in a certain shop for several times, a weak entity is not able to represent it.
 
-#### different type of complaint
+#### Different type of complaint
 
 Since the complaint can be about the product or the shop, we need to classify the complaint into 2 subclasses, namely complaints about shop and complaints about product.
 
@@ -22,6 +22,6 @@ Since the complaint can be about the product or the shop, we need to classify th
 
 Is price an attribute or an entity set?
 
-price should be an entity set. If we use price as an attribute, there is no way we can trace the history of the price.
+Price should be an entity set. If we use price as an attribute, there is no way we can trace the history of the price.
 
 
