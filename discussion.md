@@ -20,7 +20,7 @@ Since the complaint can be about the product or the shop, we need to classify th
 
 <mark> should be explained with a diagram </mark>
 
-Is price an attribute or an entity set?
+#### Is price an attribute or an entity set?
 
 Price should be an entity set. If we use price as an attribute, there is no way we can trace the history of the price.
 
