@@ -20,7 +20,7 @@
 
 We choose to make **products in shop** a subclass of **product** and a weak entity set relating to the **shop**. Its key is <*product_name*, *shop_name*>. Since each shop will get a shop-unique ID to each product it sells,  we make *produce ID in shop* as an attribute of the product in shop. We assume each shop gives only 1 ID to an object of same name. If there are duplicate names, such as (apple as a fruit and apple phone), shop will need to specify the product name like 'apple(fruit)' and 'apple(phone)' to avoid such duplication in name. Hence, **product in shop** continue to use the superclass entity set key of *name*. 
 
-We choose to make **products on order** a subclass of **product** and a weak entity set relating to both the **shop** and **order**. Its key is <*product_name*, *shop_name*, *order_id*>. This is because a user may purchase an iPhoneX from shop A and an iPhoneX from shop B in the same order.
+We choose to make **product on order** a subclass of **product** and a weak entity set relating to both the **shop** and **order**. Its key is <*product_name*, *shop_name*, *order_id*>. This is because a user may purchase an iPhoneX from shop A and an iPhoneX from shop B in the same order. Each **product on order** must belong to an order.
 
 **Shop** does not have a generic relationship with the superclass entity set **product**. Instead, it has a fundamentally different relationship with its subclass entity sets. It  ***sells*** a certain **product in shop** within a specific timeframe while it ***supplies*** **product on order** in an order. Thus, we do not create a relationship with the **product** superclass entity set directly. Instead, we design two relationship between **shop** and the two subclass entity sets of **product**.
 
