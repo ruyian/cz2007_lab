@@ -31,3 +31,5 @@ The **shop** can sell **product in shop** with a start date and an end date as i
 Since the users can make complaints about both shops and products, we classify two subclass entity set from the general **complaint** superclass, **complaint about product** and **complaint about shop** respectively, both having unique relationship either to **product on order** or **shop**. This is also for easy tracing of the complaint target.
 
 We decide not to include average rating and number of rating as attributes of **product in shop** as it can be computed.
+
+We assume Shiokee does not allow a user to provide multiple feedbacks on one product in an order to avoid manipulation of rating score. A **feedback** must have one corresponding **product in order**, and a **product in order** can have one **feedback**, thus forming relationship indiciator (referential integrity on the **product in order** side, and an arrow on the **feedback** side).
