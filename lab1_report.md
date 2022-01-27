@@ -26,7 +26,7 @@ We choose to make **products on order** a subclass of **product** and a weak ent
 
 **Price record** is a weak entity set of **product in shop** because we would like to keep track of all the changes in price and an attribute could not do the intended job. Some of our team members suggest using just an attribute. However, we cannot keep track of the all the changes in price in the history if we make only an attribute.
 
-The **shop** can sell **product in shop** with a start date and an end date as it is of the shop's freedom to putaway and get items off the shelf at any time they want.
+The **shop** can sell **product in shop** with a start date and an end date as it is of the shop's freedom to putaway and get items off the shelf at any time they want. If the shop is currently not selling that particular product in shop, the end date of *sell* relationship will not be NULL value, but the relationship will continue to be there to indicate that it used to sell that product for the purpose of tracing history of products sold on Shiokee.
 
 Since the users can make complaints about both shops and products, we classify two subclass entity set from the general **complaint** superclass, **complaint about product** and **complaint about shop** respectively, both having unique relationship either to **product on order** or **shop**. This is also for easy tracing of the complaint target.
 
