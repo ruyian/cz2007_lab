@@ -9,3 +9,20 @@ For lab 1, let's use https://app.diagrams.net/ for our drawing. Manually upload 
 ### Lab 3
 
 Here is the link for our gdocs for this lab https://docs.google.com/document/d/1PONkYb8BckCymqZ5Fbrd42zn6tUQq9dA7Mpfy47jC1U/edit?usp=sharing
+
+### Lab 5
+
+Use your own IDE for SQL login (SQL Server Auth)
+
+Username: DSS2g2
+
+Password: P@ssword!
+
+Server ip addr: 155.69.100.36
+
+Command to check connection:
+```sql
+SELECT net_transport, auth_scheme, encrypt_option   
+FROM sys.dm_exec_connections   
+WHERE session_id = @@SPID;
+```
