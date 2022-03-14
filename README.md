@@ -16,7 +16,7 @@ Use your own IDE for SQL login (SQL Server Auth)
 
 Username: DSS2g2
 
-Password: P@ssword!
+Password: P@ssw0rd!
 
 Server ip addr: 155.69.100.36
 
