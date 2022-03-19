@@ -12,12 +12,12 @@ Here is the link for our gdocs for this lab https://docs.google.com/document/d/1
 
 ### Lab 5
 
-Use your own IDE for SQL login (SQL Server Auth)
+We will use Data Grip as SQL IDE
+Data Grip Free Educational Licenses: https://www.jetbrains.com/community/education/#students
 
+Login Details
 Username: DSS2g2
-
 Password: P@ssw0rd!
-
 Server ip addr: 155.69.100.36
 
 Command to check connection:
