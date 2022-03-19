@@ -12,7 +12,9 @@ Here is the link for our gdocs for this lab https://docs.google.com/document/d/1
 
 ### Lab 5
 
-We will use Data Grip as SQL IDE
+Todo: in the report, we shall mention
+1. Why some values are allowed to be NULL
+2. (free to add on)
 
 Data Grip Free Educational Licenses: https://www.jetbrains.com/community/education/#students
 
