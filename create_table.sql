@@ -4,12 +4,14 @@ CREATE TABLE user
     user_id   int          NOT NULL IDENTITY (1,1) PRIMARY KEY,
     user_name varchar(256) NULL
 );
+
 CREATE TABLE product
 (
     product_name nvarchar(256) NOT NULL PRIMARY KEY,
     category     varchar(256)  NOT NULL,
     maker        nvarchar(256) NOT NULL
 );
+
 CREATE TABLE employee
 (
     employee_id   int           NOT NULL IDENTITY (1,1) PRIMARY KEY,
@@ -19,7 +21,7 @@ CREATE TABLE employee
 
 CREATE TABLE shop
 (
-    shop_name varchar(256) PRIMARY KEY,
+    shop_name nvarchar(256) NOT NULL PRIMARY KEY,
 );
 
 CREATE TABLE order
@@ -44,14 +46,14 @@ CREATE TABLE complaint
                complaint_status = 'Resolved'),
     UserID               int          FOREIGN KEY REFERENCES user (user_id) ON DELETE SET NULL,
     eID                  int          FOREIGN KEY REFERENCES employee (employee_id) ON DELETE SET NULL,
-    CHECK (file_timestamp <= assigned_timestamp),
-    CHECK (assigned_timestamp <= resolved_timestamp)
+    CHECK (file_timestamp <= assigned_timestamp AND
+           assigned_timestamp <= resolved_timestamp)
 );
 
 CREATE TABLE complaint_on_shop
 (
     complaint_id int FOREIGN KEY REFERENCES complaint (complaint_id) ON DELETE CASCADE,
-    shop_name    varchar(256) FOREIGN KEY REFERENCES shop (shop_name) ON DELETE CASCADE ON UPDATE CASCADE
+    shop_name    nvarchar(256) FOREIGN KEY REFERENCES shop (shop_name) ON DELETE CASCADE ON UPDATE CASCADE
         PRIMARY KEY (complaint_id),
 );
 
@@ -59,7 +61,7 @@ CREATE TABLE complaint_on_product
 (
     complaint_id int FOREIGN KEY REFERENCES complaint (complaint_id) ON DELETE CASCADE,
     product_name nvarchar(256) FOREIGN KEY REFERENCES product (product_name) ON DELETE CASCADE ON UPDATE CASCADE,
-    shop_name    varchar(256) FOREIGN KEY REFERENCES shop (shop_name) ON DELETE CASCADE ON UPDATE CASCADE,
+    shop_name    nvarchar(256) FOREIGN KEY REFERENCES shop (shop_name) ON DELETE CASCADE ON UPDATE CASCADE,
     order_id     int FOREIGN KEY REFERENCES order (order_id) ON DELETE CASCADE,
     PRIMARY KEY (complaint_id),
 );
@@ -67,16 +69,16 @@ CREATE TABLE complaint_on_product
 CREATE TABLE product_in_shop
 (
     product_name nvarchar(256) FOREIGN KEY REFERENCES product (product_name) ON DELETE CASCADE ON UPDATE CASCADE,
-    shop_name    varchar(256) FOREIGN KEY REFERENCES shop (shop_name) ON DELETE CASCADE ON UPDATE CASCADE,
+    shop_name    nvarchar(256) FOREIGN KEY REFERENCES shop (shop_name) ON DELETE CASCADE ON UPDATE CASCADE,
     quantity     int       NOT NULL DEFAULT 0 CHECK (quantity >= 0),
-    price        float(24) NOT NULL DEFAULT 0.0 CHECK (price >= 0.0),
+    price_in_shop        float(24) NOT NULL DEFAULT 0.0 CHECK (price_in_shop >= 0.0),
     PRIMARY KEY (product_name, shop_name),
 );
 
 CREATE TABLE product_on_order
 (
     product_name            nvarchar(500) FOREIGN KEY REFERENCES product (product_name) ON DELETE CASCADE ON UPDATE CASCADE,
-    shop_name               varchar(100) FOREIGN KEY REFERENCES shop (shop_name) ON DELETE CASCADE ON UPDATE CASCADE,
+    shop_name               nvarchar(100) FOREIGN KEY REFERENCES shop (shop_name) ON DELETE CASCADE ON UPDATE CASCADE,
     order_id                int FOREIGN KEY REFERENCES [order] (order_id) ON DELETE CASCADE,
     order_quantity          int         NOT NULL DEFAULT 0 CHECK (order_quantity > 0),
     dealing_price           float(24)   NOT NULL DEFAULT 0.0 CHECK (dealing_price >= 0.0),
@@ -101,7 +103,7 @@ CREATE TABLE product_on_order
 CREATE TABLE price_history
 (
     product_name nvarchar(256) FOREIGN KEY REFERENCES product (product_name) ON DELETE CASCADE ON UPDATE CASCADE,
-    shop_name    varchar(256) FOREIGN KEY REFERENCES shop (shop_name) ON DELETE CASCADE ON UPDATE CASCADE,
+    shop_name    nvarchar(256) FOREIGN KEY REFERENCES shop (shop_name) ON DELETE CASCADE ON UPDATE CASCADE,
     start_date   datetime  NOT NULL DEFAULT getdate(),
     end_date     datetime  NULL,
     actual_price float(24) NOT NULL DEFAULT 0.0 CHECK (actual_price >= 0.0),
@@ -112,15 +114,13 @@ CREATE TABLE price_history
 CREATE TABLE feedback
 (
     product_name nvarchar(256) FOREIGN KEY REFERENCES product (product_name) ON DELETE CASCADE ON UPDATE CASCADE,
-    shop_name    varchar(256) FOREIGN KEY REFERENCES shop (shop_name) ON DELETE CASCADE ON UPDATE CASCADE,
+    shop_name    nvarchar(256) FOREIGN KEY REFERENCES shop (shop_name) ON DELETE CASCADE ON UPDATE CASCADE,
     order_id     int FOREIGN KEY REFERENCES order (order_id) ON DELETE CASCADE,
     rating       int          NOT NULL CHECK (rating >= 1 AND rating <= 5),
     comment      varchar(max) NULL,
     -- user_id      int          NOT NULL,
     -- should not be included because we have performed 3NF decomposition in lab 3
     -- mention in report!
-
-    
     feedbackDate datetime DEFAULT getdate(),
     PRIMARY KEY (product_name, shop_name, order_id),
     --FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
