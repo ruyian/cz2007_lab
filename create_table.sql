@@ -116,8 +116,12 @@ CREATE TABLE feedback
     order_id     int FOREIGN KEY REFERENCES order (order_id) ON DELETE CASCADE,
     rating       int          NOT NULL CHECK (rating >= 1 AND rating <= 5),
     comment      varchar(max) NULL,
-    user_id      int          NOT NULL,
+    -- user_id      int          NOT NULL,
+    -- should not be included because we have performed 3NF decomposition in lab 3
+    -- mention in report!
+
+    
     feedbackDate datetime DEFAULT getdate(),
     PRIMARY KEY (product_name, shop_name, order_id),
-    FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    --FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
 );
