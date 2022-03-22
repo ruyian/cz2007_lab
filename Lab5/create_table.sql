@@ -1,5 +1,5 @@
 -- Create Tables
-CREATE TABLE user
+CREATE TABLE users
 (
     user_id   int          NOT NULL IDENTITY (1,1) PRIMARY KEY,
     user_name varchar(256) NULL
@@ -24,13 +24,13 @@ CREATE TABLE shop
     shop_name nvarchar(256) NOT NULL PRIMARY KEY,
 );
 
-CREATE TABLE order
+CREATE TABLE orders
 (
     order_id                int           NOT NULL IDENTITY (1,1) PRIMARY KEY,
     total_shipping_cost     float(24)     NOT NULL DEFAULT 0.0 CHECK (total_shipping_cost >= 0.0),
     shipping_addr           nvarchar(256) NOT NULL,
     order_placing_timestamp datetime               DEFAULT getdate(),
-    user_id                 int FOREIGN KEY REFERENCES user (user_id) ON DELETE CASCADE,
+    user_id                 int FOREIGN KEY REFERENCES users (user_id) ON DELETE CASCADE,
 );
 
 CREATE TABLE complaint
@@ -44,7 +44,7 @@ CREATE TABLE complaint
         Check (complaint_status = 'Pending' OR
                complaint_status = 'Assigned' OR
                complaint_status = 'Resolved'),
-    UserID               int          FOREIGN KEY REFERENCES user (user_id) ON DELETE SET NULL,
+    UserID               int          FOREIGN KEY REFERENCES users (user_id) ON DELETE SET NULL,
     eID                  int          FOREIGN KEY REFERENCES employee (employee_id) ON DELETE SET NULL,
     CHECK (file_timestamp <= assigned_timestamp AND
            assigned_timestamp <= resolved_timestamp)
@@ -62,7 +62,7 @@ CREATE TABLE complaint_on_product
     complaint_id int FOREIGN KEY REFERENCES complaint (complaint_id) ON DELETE CASCADE,
     product_name nvarchar(256) FOREIGN KEY REFERENCES product (product_name) ON DELETE CASCADE ON UPDATE CASCADE,
     shop_name    nvarchar(256) FOREIGN KEY REFERENCES shop (shop_name) ON DELETE CASCADE ON UPDATE CASCADE,
-    order_id     int FOREIGN KEY REFERENCES order (order_id) ON DELETE CASCADE,
+    order_id     int FOREIGN KEY REFERENCES orders (order_id) ON DELETE CASCADE,
     PRIMARY KEY (complaint_id),
 );
 
@@ -79,7 +79,7 @@ CREATE TABLE product_on_order
 (
     product_name            nvarchar(500) FOREIGN KEY REFERENCES product (product_name) ON DELETE CASCADE ON UPDATE CASCADE,
     shop_name               nvarchar(100) FOREIGN KEY REFERENCES shop (shop_name) ON DELETE CASCADE ON UPDATE CASCADE,
-    order_id                int FOREIGN KEY REFERENCES [order] (order_id) ON DELETE CASCADE,
+    order_id                int FOREIGN KEY REFERENCES [orders] (order_id) ON DELETE CASCADE,
     order_quantity          int         NOT NULL DEFAULT 0 CHECK (order_quantity > 0),
     dealing_price           float(24)   NOT NULL DEFAULT 0.0 CHECK (dealing_price >= 0.0),
     product_on_order_status varchar(50) NOT NULL DEFAULT 'being processed'
@@ -115,7 +115,7 @@ CREATE TABLE feedback
 (
     product_name nvarchar(256) FOREIGN KEY REFERENCES product (product_name) ON DELETE CASCADE ON UPDATE CASCADE,
     shop_name    nvarchar(256) FOREIGN KEY REFERENCES shop (shop_name) ON DELETE CASCADE ON UPDATE CASCADE,
-    order_id     int FOREIGN KEY REFERENCES order (order_id) ON DELETE CASCADE,
+    order_id     int FOREIGN KEY REFERENCES orders (order_id) ON DELETE CASCADE,
     rating       int          NOT NULL CHECK (rating >= 1 AND rating <= 5),
     comment      varchar(max) NULL,
     -- user_id      int          NOT NULL,
@@ -123,5 +123,5 @@ CREATE TABLE feedback
     -- mention in report!
     feedbackDate datetime DEFAULT getdate(),
     PRIMARY KEY (product_name, shop_name, order_id),
-    --FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    --FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
 );
