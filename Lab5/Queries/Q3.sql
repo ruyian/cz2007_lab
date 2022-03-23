@@ -6,6 +6,6 @@ SELECT CAST(AVG(DATEDIFF(second, order_placing_timestamp, delivery_date)) AS FLO
 FROM orders,
      product_in_order
 WHERE orders.order_id = product_in_order.order_id
-  AND order_placing_timestamp >= '2021-06-01 00:00:01'
-  AND order_placing_timestamp <= '2021-06-30 23:59:59'
+  AND order_placing_timestamp >= '2021-06-01 00:00:00'
+  AND order_placing_timestamp < '2021-07-01 00:00:00'
   AND (product_on_order_status = 'delivered' OR product_on_order_status = 'returned');

@@ -8,7 +8,7 @@ SELECT product_name, SUM(order_quantity) AS TotalQuantity
 FROM product_on_order PIO
          JOIN orders O ON PIO.order_id = O.order_id AND
                           (O.OrderDateTime >= '2021.08.01 00:00:00' AND
-                           O.OrderDateTime < '2020.09.01 00:00:00')
+                           O.OrderDateTime < '2021.09.01 00:00:00')
 GROUP BY product_name);
 
 GO
