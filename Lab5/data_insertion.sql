@@ -231,6 +231,14 @@ INSERT [dbo].[complaint] ([complaint_id], [complain_description], [complaint_sta
 INSERT [dbo].[complaint] ([complaint_id], [complain_description], [complaint_status], [file_timestamp], [UserID], [eID], [resolved_timestamp]) VALUES (10, N'D:<', N'addressed', CAST(N'2020-08-01T00:00:00.000' AS DateTime), 87, 2, CAST(N'2020-08-20T00:00:00.000' AS DateTime))
 SET IDENTITY_INSERT [dbo].[complaint] OFF
 GO
+INSERT [dbo].[complaint_on_shop] ([complaint_id], [shop_name]) VALUES (1, N'Courts')
+INSERT [dbo].[complaint_on_shop] ([complaint_id], [shop_name]) VALUES (2, N'Courts')
+INSERT [dbo].[complaint_on_shop] ([complaint_id], [shop_name]) VALUES (3, N'Challenger')
+INSERT [dbo].[complaint_on_shop] ([complaint_id], [shop_name]) VALUES (4, N'iStudio')
+INSERT [dbo].[complaint_on_shop] ([complaint_id], [shop_name]) VALUES (8, N'Samsung')
+INSERT [dbo].[complaint_on_shop] ([complaint_id], [shop_name]) VALUES (9, N'Samsung')
+INSERT [dbo].[complaint_on_shop] ([complaint_id], [shop_name]) VALUES (10, N'Adidas')
+GO
 SET IDENTITY_INSERT [dbo].[order] ON 
 
 INSERT [dbo].[order] ([order_id],[total_shipping_cost],[shipping_addr], [order_placing_timestamp datetime], [user_id]) VALUES (1,50.00, N'4338 Rutledge Junction', CAST(N'2020-01-02T00:00:00.000' AS DateTime), 1)
