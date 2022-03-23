@@ -2,7 +2,7 @@
 
 WITH A1 AS
          (
-             SELECT t2.shop_name, SUM(t2.orderprice * t2.orderquantity) AS revenue
+             SELECT t2.shop_name, SUM(t2.dealing_price * t2.order_quantity) AS revenue
              FROM orders as t1
 
                       -- Left join on common attribute OrderID of both tables
