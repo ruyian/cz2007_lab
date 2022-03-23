@@ -209,14 +209,18 @@ INSERT [dbo].[user] ([user_id], [user_name]) VALUES (208, N'Trica')
 INSERT [dbo].[user] ([user_id], [user_name]) VALUES (209, N'Tendor')
 INSERT [dbo].[user] ([user_id], [user_name]) VALUES (210, N'Zara')
 INSERT [dbo].[user] ([user_id], [user_name]) VALUES (211, N'Kubertes')
-SET IDENTITY_INSERT [dbo].[user] OFFGO
+SET IDENTITY_INSERT [dbo].[user] OFF
+
+GO
 SET IDENTITY_INSERT [dbo].[employee] ON 
 
 INSERT [dbo].[employee] ([employee_id], [employee_name], [salary]) VALUES (1, N'Josephine Tan', 2000.0000)
 INSERT [dbo].[employee] ([employee_id], [employee_name], [salary]) VALUES (2, N'Jun Xiong', 2600.0000)
 INSERT [dbo].[employee] ([employee_id], [employee_name], [salary]) VALUES (3, N'Wan Qian', 3500.0000)
 INSERT [dbo].[employee] ([employee_id], [employee_name], [salary]) VALUES (4, N'Heng Duang', 3200.0000)
-SET IDENTITY_INSERT [dbo].[employee] OFFGO
+SET IDENTITY_INSERT [dbo].[employee] OFF
+
+GO
 SET IDENTITY_INSERT [dbo].[complaint] ON 
 
 INSERT [dbo].[complaint] ([complaint_id], [complain_description], [complaint_status], [file_timestamp], [UserID], [eID], [resolved_timestamp], [assigned_timestamp]) VALUES (1, N'Horrible Service.', N'Resolved', CAST(N'2020-08-03T00:00:00.000' AS DateTime), 4, 1, CAST(N'2020-09-03T22:00:00.000' AS DateTime), CAST(N'2020-09-03T22:00:00.000' AS DateTime))
@@ -230,6 +234,7 @@ INSERT [dbo].[complaint] ([complaint_id], [complain_description], [complaint_sta
 INSERT [dbo].[complaint] ([complaint_id], [complain_description], [complaint_status], [file_timestamp], [UserID], [eID], [resolved_timestamp], [assigned_timestamp]) VALUES (9, N'Horrible Service.', N'Resolved', CAST(N'2020-08-01T00:00:00.000' AS DateTime), 19, 1, CAST(N'2020-09-01T00:00:00.000' AS DateTime),CAST(N'2020-09-01T00:00:00.000' AS DateTime))
 INSERT [dbo].[complaint] ([complaint_id], [complain_description], [complaint_status], [file_timestamp], [UserID], [eID], [resolved_timestamp], [assigned_timestamp]) VALUES (10, N'D:<', N'Resolved', CAST(N'2020-08-01T00:00:00.000' AS DateTime), 87, 2, CAST(N'2020-08-20T00:00:00.000' AS DateTime),CAST(N'2020-08-20T00:00:00.000' AS DateTime))
 SET IDENTITY_INSERT [dbo].[complaint] OFF
+
 GO
 INSERT [dbo].[complaint_on_shop] ([complaint_id], [shop_name]) VALUES (1, N'Courts')
 INSERT [dbo].[complaint_on_shop] ([complaint_id], [shop_name]) VALUES (2, N'Courts')
@@ -506,7 +511,9 @@ INSERT [dbo].[order] ([order_id],[total_shipping_cost],[shipping_addr], [order_p
 INSERT [dbo].[order] ([order_id],[total_shipping_cost],[shipping_addr], [order_placing_timestamp datetime], [user_id]) VALUES (260,4.00, N'10 Cupertino avenue 4 street 5', CAST(N'2020-01-15T00:00:00.000' AS DateTime), 207)
 INSERT [dbo].[order] ([order_id],[total_shipping_cost],[shipping_addr], [order_placing_timestamp datetime], [user_id]) VALUES (261,24.00, N'10 Cupertino avenue 4 street 5', CAST(N'2020-02-15T00:00:00.000' AS DateTime), 207)
 INSERT [dbo].[order] ([order_id],[total_shipping_cost],[shipping_addr], [order_placing_timestamp datetime], [user_id]) VALUES (262,3.00, N'10 Cupertino avenue 4 street 5', CAST(N'2020-03-15T00:00:00.000' AS DateTime), 207)
-SET IDENTITY_INSERT [dbo].[order] OFFGO
+SET IDENTITY_INSERT [dbo].[order] OFF
+
+GO
 INSERT [dbo].[complaint_on_product] ([complaint_id],[product_name],[shop_name],[order_id]) VALUES (5, N'Ultraboost Shoes', N'Adidas', 10)
 INSERT [dbo].[complaint_on_product] ([complaint_id],[product_name],[shop_name],[order_id]) VALUES (6, N'iPhone X',  N'iStudio',5)
 INSERT [dbo].[complaint_on_product] ([complaint_id],[product_name],[shop_name],[order_id]) VALUES (7, N'iPhone XS', N'iStudio', 124)GO
