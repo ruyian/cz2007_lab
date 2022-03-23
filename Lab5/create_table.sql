@@ -222,8 +222,8 @@ BEGIN
     FROM complaint o,
          inserted i,
          deleted d
-    WHERE o.cID = i.cID
-      AND o.cID = d.cID
+    WHERE o.complaint_id = i.complaint_id
+      AND o.complaint_id = d.complaint_id
 
 END
 GO
@@ -242,7 +242,7 @@ CREATE TRIGGER NoEmployeeUpdate
     AS
     IF UPDATE(employee_id)
         BEGIN
-            ;THROW 51000, 'You can''t update the primary key employeeID', 1;
+            ;THROW 51000, 'You cannot update the primary key employeeID', 1;
         END
 GO
 CREATE TRIGGER NoOrderUpdate
@@ -251,5 +251,5 @@ CREATE TRIGGER NoOrderUpdate
     AS
     IF UPDATE(order_id)
         BEGIN
-            ;THROW 51000, 'You can''t update the primary key orderID', 1;
+            ;THROW 51000, 'You cannot update the primary key orderID', 1;
         END
