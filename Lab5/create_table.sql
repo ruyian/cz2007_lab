@@ -1,5 +1,5 @@
 -- Create Tables
-CREATE TABLE user
+CREATE TABLE users
 (
     user_id   int          NOT NULL IDENTITY (1,1) PRIMARY KEY,
     user_name varchar(256) NULL
@@ -24,13 +24,13 @@ CREATE TABLE shop
     shop_name nvarchar(256) NOT NULL PRIMARY KEY,
 );
 
-CREATE TABLE order
+CREATE TABLE orders
 (
     order_id                int           NOT NULL IDENTITY (1,1) PRIMARY KEY,
     total_shipping_cost     float(24)     NOT NULL DEFAULT 0.0 CHECK (total_shipping_cost >= 0.0),
     shipping_addr           nvarchar(256) NOT NULL,
     order_placing_timestamp datetime               DEFAULT getdate(),
-    user_id                 int FOREIGN KEY REFERENCES user (user_id) ON DELETE CASCADE,
+    user_id                 int FOREIGN KEY REFERENCES users (user_id) ON DELETE CASCADE,
 );
 
 CREATE TABLE complaint
@@ -44,7 +44,7 @@ CREATE TABLE complaint
         Check (complaint_status = 'Pending' OR
                complaint_status = 'Assigned' OR
                complaint_status = 'Resolved'),
-    UserID               int          FOREIGN KEY REFERENCES user (user_id) ON DELETE SET NULL,
+    UserID               int          FOREIGN KEY REFERENCES users (user_id) ON DELETE SET NULL,
     eID                  int          FOREIGN KEY REFERENCES employee (employee_id) ON DELETE SET NULL,
     CHECK (file_timestamp <= assigned_timestamp AND
            assigned_timestamp <= resolved_timestamp)
@@ -62,7 +62,7 @@ CREATE TABLE complaint_on_product
     complaint_id int FOREIGN KEY REFERENCES complaint (complaint_id) ON DELETE CASCADE,
     product_name nvarchar(256) FOREIGN KEY REFERENCES product (product_name) ON DELETE CASCADE ON UPDATE CASCADE,
     shop_name    nvarchar(256) FOREIGN KEY REFERENCES shop (shop_name) ON DELETE CASCADE ON UPDATE CASCADE,
-    order_id     int FOREIGN KEY REFERENCES order (order_id) ON DELETE CASCADE,
+    order_id     int FOREIGN KEY REFERENCES orders (order_id) ON DELETE CASCADE,
     PRIMARY KEY (complaint_id),
 );
 
@@ -79,7 +79,7 @@ CREATE TABLE product_on_order
 (
     product_name            nvarchar(500) FOREIGN KEY REFERENCES product (product_name) ON DELETE CASCADE ON UPDATE CASCADE,
     shop_name               nvarchar(100) FOREIGN KEY REFERENCES shop (shop_name) ON DELETE CASCADE ON UPDATE CASCADE,
-    order_id                int FOREIGN KEY REFERENCES [order] (order_id) ON DELETE CASCADE,
+    order_id                int FOREIGN KEY REFERENCES [orders] (order_id) ON DELETE CASCADE,
     order_quantity          int         NOT NULL DEFAULT 0 CHECK (order_quantity > 0),
     dealing_price           float(24)   NOT NULL DEFAULT 0.0 CHECK (dealing_price >= 0.0),
     product_on_order_status varchar(50) NOT NULL DEFAULT 'being processed'
@@ -115,7 +115,7 @@ CREATE TABLE feedback
 (
     product_name nvarchar(256) FOREIGN KEY REFERENCES product (product_name) ON DELETE CASCADE ON UPDATE CASCADE,
     shop_name    nvarchar(256) FOREIGN KEY REFERENCES shop (shop_name) ON DELETE CASCADE ON UPDATE CASCADE,
-    order_id     int FOREIGN KEY REFERENCES order (order_id) ON DELETE CASCADE,
+    order_id     int FOREIGN KEY REFERENCES orders (order_id) ON DELETE CASCADE,
     rating       int          NOT NULL CHECK (rating >= 1 AND rating <= 5),
     comment      varchar(max) NULL,
     -- user_id      int          NOT NULL,
@@ -123,5 +123,133 @@ CREATE TABLE feedback
     -- mention in report!
     feedbackDate datetime DEFAULT getdate(),
     PRIMARY KEY (product_name, shop_name, order_id),
-    --FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    --FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
 );
+
+
+
+
+
+
+
+
+--- TRIGGERS
+--Table Triggers
+GO --syntax to define a batch of statements
+
+--Update DeliveryDateTime when DeliveryStatus changed.
+--If DeliveryStatus changed to 'Delivered', then DeliveryDateTime=GETDATE()
+--If DeliveryStatus changed to 'Pending', then DeliveryDateTime=NULL
+--One trigger, one batch of statements
+CREATE TRIGGER UpdateDelivery
+    ON product_on_order
+    AFTER UPDATE
+    NOT FOR REPLICATION
+    AS
+BEGIN
+    UPDATE product_on_order
+        --DeliveryDateTime will not be updated unless DeliveryStatus changes from 'shipped' to 'delivered'
+    SET deliverydate= CASE
+        --If previous DeliveryStatus='shipped' and is changed to 'delivered', then DeliveryDateTime=GETDATE().
+                          WHEN d.product_on_order_status = 'shipped' AND i.product_on_order_status = 'delivered'
+                              THEN GETDATE()
+        --DeliveryDateTime retains the old value
+                          ELSE
+                              d.deliverydate
+        END
+      --DeliveryStatus will not be updated unless if follows the sequence: 'being processed'->'shipped'->'delivered'->'returned'
+      , deliverystatus= CASE
+        --If previous DeliveryStatus='being processed'. It can only be changed to 'shipped'.
+                            WHEN d.product_on_order_status = 'being processed' AND i.product_on_order_status <> 'shipped'
+                                THEN 'being processed'
+        --If previous DeliveryStatus='shipped'. It can only be changed to 'delivered'.
+                            WHEN d.product_on_order_status = 'shipped' AND i.product_on_order_status <> 'delivered'
+                                THEN 'shipped'
+        --If previous DeliveryStatus='delivered'. It can only be changed to 'returned'.
+                            WHEN d.product_on_order_status = 'delivered' AND i.product_on_order_status <> 'returned'
+                                THEN 'delivered' --DeliveryStatus retains updated value
+                            WHEN d.product_on_order_status = 'returned'
+                                THEN 'returned'
+
+                            ELSE
+                                i.product_on_order_status
+        END
+    FROM product_on_order o,
+         inserted i,
+         deleted d
+         --Get all the records that have just been updated, and find the previous value (inserted gives the updated rows, and deleted gives the previous values for these rows)
+    WHERE o.SName = i.SName
+      AND o.PName = i.PName
+      AND o.oID = i.oID
+      AND o.SName = d.SName
+      AND o.PName = d.PName
+      AND o.oID = d.oID;
+END
+GO
+
+GO
+CREATE TRIGGER ComplainStatus
+    ON complaint
+    AFTER UPDATE
+    NOT FOR REPLICATION
+    AS
+BEGIN
+    UPDATE complaint
+        SET complainstatus= CASE
+                            WHEN d.complaint_status = 'Pending' AND i.ccomplaint_status = 'Assigned' AND i.employee_id IS NULL
+                                THEN 'Pending'
+
+                            WHEN d.complaint_status= 'Pending' AND i.complaint_status = 'Assigned' AND
+                                 i.employee_id  IS NOT NULL
+                                THEN 'Assigned'
+
+                            WHEN d.complaint_status = 'Assigned' AND i.complaint_status <> 'Resolved'
+                                THEN 'Assigned'
+
+                            WHEN d.complaint_status = 'Pending' AND i.complaint_status <> 'Assigned'
+                                THEN 'Pending'
+                            WHEN d.complaint_status = 'Resolved'
+                                THEN 'Resolved'
+                            ELSE
+                                i.complaint_status
+        END,
+        resolved_timestamp= CASE
+                            WHEN d.complaint_status = 'Assigned' AND i.complaint_status = 'Resolved'
+                                THEN getdate()
+                            ELSE
+                                d.resolved_timestamp
+            END
+    FROM complaint o,
+         inserted i,
+         deleted d
+    WHERE o.cID = i.cID
+      AND o.cID = d.cID
+
+END
+GO
+CREATE TRIGGER NoUserUpdate
+    ON users
+    AFTER UPDATE
+    AS
+    IF UPDATE(user_id)
+        BEGIN
+            ;THROW 51000, 'You cannot update the primary key UserID', 1;
+        END
+GO
+CREATE TRIGGER NoEmployeeUpdate
+    ON employee
+    AFTER UPDATE
+    AS
+    IF UPDATE(employee_id)
+        BEGIN
+            ;THROW 51000, 'You can''t update the primary key employeeID', 1;
+        END
+GO
+CREATE TRIGGER NoOrderUpdate
+    ON orders
+    AFTER UPDATE
+    AS
+    IF UPDATE(order_id)
+        BEGIN
+            ;THROW 51000, 'You can''t update the primary key orderID', 1;
+        END
