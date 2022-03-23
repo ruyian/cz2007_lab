@@ -1,3 +1,11 @@
-select avg(delivery_date - order_timestsmp) 
-from PRODUCTS-IN-ORDER left join ORDERS on PRODUCTS-IN-ORDERS.order_id=ORDERS.order_id
-where order_timestsmp >= '2021-6-1' AND order_timestsmp <= '2021-6-30' AND delivery_date <= now() 
+-- For all products purchased in June 2021 that have been delivered, find the average time from the
+-- ordering date to the delivery date.
+
+-- print average time of delivery in hours
+SELECT CAST(AVG(DATEDIFF(second, order_placing_timestamp, delivery_date)) AS FLOAT) / 3600 AS AvgTimeOnDelivery
+FROM orders,
+     product_in_order
+WHERE orders.order_id = product_in_order.order_id
+  AND order_placing_timestamp >= '2021-06-01 00:00:01'
+  AND order_placing_timestamp <= '2021-06-30 23:59:59'
+  AND (product_on_order_status = 'delivered' OR product_on_order_status = 'returned');
