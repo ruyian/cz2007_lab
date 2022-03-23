@@ -238,6 +238,7 @@ INSERT [dbo].[complaint_on_shop] ([complaint_id], [shop_name]) VALUES (4, N'iStu
 INSERT [dbo].[complaint_on_shop] ([complaint_id], [shop_name]) VALUES (8, N'Samsung')
 INSERT [dbo].[complaint_on_shop] ([complaint_id], [shop_name]) VALUES (9, N'Samsung')
 INSERT [dbo].[complaint_on_shop] ([complaint_id], [shop_name]) VALUES (10, N'Adidas')
+
 GO
 SET IDENTITY_INSERT [dbo].[order] ON 
 
