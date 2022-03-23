@@ -125,3 +125,131 @@ CREATE TABLE feedback
     PRIMARY KEY (product_name, shop_name, order_id),
     --FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
 );
+
+
+
+
+
+
+
+
+--- TRIGGERS
+--Table Triggers
+GO --syntax to define a batch of statements
+
+--Update DeliveryDateTime when DeliveryStatus changed.
+--If DeliveryStatus changed to 'Delivered', then DeliveryDateTime=GETDATE()
+--If DeliveryStatus changed to 'Pending', then DeliveryDateTime=NULL
+--One trigger, one batch of statements
+CREATE TRIGGER UpdateDelivery
+    ON product_on_order
+    AFTER UPDATE
+    NOT FOR REPLICATION
+    AS
+BEGIN
+    UPDATE product_on_order
+        --DeliveryDateTime will not be updated unless DeliveryStatus changes from 'shipped' to 'delivered'
+    SET deliverydate= CASE
+        --If previous DeliveryStatus='shipped' and is changed to 'delivered', then DeliveryDateTime=GETDATE().
+                          WHEN d.product_on_order_status = 'shipped' AND i.product_on_order_status = 'delivered'
+                              THEN GETDATE()
+        --DeliveryDateTime retains the old value
+                          ELSE
+                              d.deliverydate
+        END
+      --DeliveryStatus will not be updated unless if follows the sequence: 'being processed'->'shipped'->'delivered'->'returned'
+      , deliverystatus= CASE
+        --If previous DeliveryStatus='being processed'. It can only be changed to 'shipped'.
+                            WHEN d.product_on_order_status = 'being processed' AND i.product_on_order_status <> 'shipped'
+                                THEN 'being processed'
+        --If previous DeliveryStatus='shipped'. It can only be changed to 'delivered'.
+                            WHEN d.product_on_order_status = 'shipped' AND i.product_on_order_status <> 'delivered'
+                                THEN 'shipped'
+        --If previous DeliveryStatus='delivered'. It can only be changed to 'returned'.
+                            WHEN d.product_on_order_status = 'delivered' AND i.product_on_order_status <> 'returned'
+                                THEN 'delivered' --DeliveryStatus retains updated value
+                            WHEN d.product_on_order_status = 'returned'
+                                THEN 'returned'
+
+                            ELSE
+                                i.product_on_order_status
+        END
+    FROM product_on_order o,
+         inserted i,
+         deleted d
+         --Get all the records that have just been updated, and find the previous value (inserted gives the updated rows, and deleted gives the previous values for these rows)
+    WHERE o.SName = i.SName
+      AND o.PName = i.PName
+      AND o.oID = i.oID
+      AND o.SName = d.SName
+      AND o.PName = d.PName
+      AND o.oID = d.oID;
+END
+GO
+
+GO
+CREATE TRIGGER ComplainStatus
+    ON complaint
+    AFTER UPDATE
+    NOT FOR REPLICATION
+    AS
+BEGIN
+    UPDATE complaint
+        SET complainstatus= CASE
+                            WHEN d.complaint_status = 'Pending' AND i.ccomplaint_status = 'Assigned' AND i.employee_id IS NULL
+                                THEN 'Pending'
+
+                            WHEN d.complaint_status= 'Pending' AND i.complaint_status = 'Assigned' AND
+                                 i.employee_id  IS NOT NULL
+                                THEN 'Assigned'
+
+                            WHEN d.complaint_status = 'Assigned' AND i.complaint_status <> 'Resolved'
+                                THEN 'Assigned'
+
+                            WHEN d.complaint_status = 'Pending' AND i.complaint_status <> 'Assigned'
+                                THEN 'Pending'
+                            WHEN d.complaint_status = 'Resolved'
+                                THEN 'Resolved'
+                            ELSE
+                                i.complaint_status
+        END,
+        resolved_timestamp= CASE
+                            WHEN d.complaint_status = 'Assigned' AND i.complaint_status = 'Resolved'
+                                THEN getdate()
+                            ELSE
+                                d.resolved_timestamp
+            END
+    FROM complaint o,
+         inserted i,
+         deleted d
+    WHERE o.cID = i.cID
+      AND o.cID = d.cID
+
+END
+GO
+CREATE TRIGGER NoUserUpdate
+    ON users
+    AFTER UPDATE
+    AS
+    IF UPDATE(user_id)
+        BEGIN
+            ;THROW 51000, 'You cannot update the primary key UserID', 1;
+        END
+GO
+CREATE TRIGGER NoEmployeeUpdate
+    ON employee
+    AFTER UPDATE
+    AS
+    IF UPDATE(employee_id)
+        BEGIN
+            ;THROW 51000, 'You can''t update the primary key employeeID', 1;
+        END
+GO
+CREATE TRIGGER NoOrderUpdate
+    ON orders
+    AFTER UPDATE
+    AS
+    IF UPDATE(order_id)
+        BEGIN
+            ;THROW 51000, 'You can''t update the primary key orderID', 1;
+        END
