@@ -75,10 +75,11 @@ CREATE TABLE product_in_shop
     PRIMARY KEY (product_name, shop_name),
 );
 
+/* error: used to be 500 and 100 does not match with previous*/
 CREATE TABLE product_on_order
 (
-    product_name            nvarchar(500) FOREIGN KEY REFERENCES product (product_name) ON DELETE CASCADE ON UPDATE CASCADE,
-    shop_name               nvarchar(100) FOREIGN KEY REFERENCES shop (shop_name) ON DELETE CASCADE ON UPDATE CASCADE,
+    product_name            nvarchar(256) FOREIGN KEY REFERENCES product (product_name) ON DELETE CASCADE ON UPDATE CASCADE,
+    shop_name               nvarchar(256) FOREIGN KEY REFERENCES shop (shop_name) ON DELETE CASCADE ON UPDATE CASCADE,
     order_id                int FOREIGN KEY REFERENCES [orders] (order_id) ON DELETE CASCADE,
     order_quantity          int         NOT NULL DEFAULT 0 CHECK (order_quantity > 0),
     dealing_price           float(24)   NOT NULL DEFAULT 0.0 CHECK (dealing_price >= 0.0),
@@ -97,8 +98,6 @@ CREATE TABLE product_on_order
         OR (product_on_order_status = 'shipped' AND delivery_date IS NULL)),
     PRIMARY KEY (product_name, shop_name, order_id),
 );
-
-
 
 CREATE TABLE price_history
 (
@@ -195,7 +194,7 @@ CREATE TRIGGER ComplainStatus
     AS
 BEGIN
     UPDATE complaint
-        SET complainstatus= CASE
+        SET complaint_status= CASE
                             WHEN d.complaint_status = 'Pending' AND i.ccomplaint_status = 'Assigned' AND i.employee_id IS NULL
                                 THEN 'Pending'
 

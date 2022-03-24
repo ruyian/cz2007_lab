@@ -9,8 +9,8 @@ FROM feedback
 WHERE rating = 5
   AND MONTH(feedbackDate) = 8
   AND YEAR(feedbackDate) = 2020
-GROUP BY pName
-HAVING COUNT(rating) >= 100;
+GROUP BY product_name
+HAVING COUNT(rating) >= 2;
 
 -- -- printing the average ratings for these products
 SELECT product_name, ROUND(AVG(Cast(rating as Float)), 2) AS AvgRatings
