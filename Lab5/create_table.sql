@@ -45,7 +45,7 @@ CREATE TABLE complaint
                complaint_status = 'Assigned' OR
                complaint_status = 'Resolved'),
     UserID               int          FOREIGN KEY REFERENCES users (user_id) ON DELETE SET NULL,
-    eID                  int          FOREIGN KEY REFERENCES employee (employee_id) ON DELETE SET NULL,
+    employee_id                  int          FOREIGN KEY REFERENCES employee (employee_id) ON DELETE SET NULL,
     CHECK (file_timestamp <= assigned_timestamp AND
            assigned_timestamp <= resolved_timestamp)
 );
@@ -148,16 +148,16 @@ CREATE TRIGGER UpdateDelivery
 BEGIN
     UPDATE product_on_order
         --DeliveryDateTime will not be updated unless DeliveryStatus changes from 'shipped' to 'delivered'
-    SET deliverydate= CASE
+    SET delivery_date= CASE
         --If previous DeliveryStatus='shipped' and is changed to 'delivered', then DeliveryDateTime=GETDATE().
                           WHEN d.product_on_order_status = 'shipped' AND i.product_on_order_status = 'delivered'
                               THEN GETDATE()
         --DeliveryDateTime retains the old value
                           ELSE
-                              d.deliverydate
+                              d.delivery_date
         END
       --DeliveryStatus will not be updated unless if follows the sequence: 'being processed'->'shipped'->'delivered'->'returned'
-      , deliverystatus= CASE
+      , product_on_order_status= CASE
         --If previous DeliveryStatus='being processed'. It can only be changed to 'shipped'.
                             WHEN d.product_on_order_status = 'being processed' AND i.product_on_order_status <> 'shipped'
                                 THEN 'being processed'
@@ -177,12 +177,12 @@ BEGIN
          inserted i,
          deleted d
          --Get all the records that have just been updated, and find the previous value (inserted gives the updated rows, and deleted gives the previous values for these rows)
-    WHERE o.SName = i.SName
-      AND o.PName = i.PName
-      AND o.oID = i.oID
-      AND o.SName = d.SName
-      AND o.PName = d.PName
-      AND o.oID = d.oID;
+    WHERE o.shop_name = i.shop_name
+      AND o.product_name = i.product_name
+      AND o.order_id = i.order_id
+      AND o.shop_name = d.shop_name
+      AND o.product_name = d.product_name
+      AND o.order_id = d.order_id;
 END
 GO
 
@@ -195,7 +195,7 @@ CREATE TRIGGER ComplainStatus
 BEGIN
     UPDATE complaint
         SET complaint_status= CASE
-                            WHEN d.complaint_status = 'Pending' AND i.ccomplaint_status = 'Assigned' AND i.employee_id IS NULL
+                            WHEN d.complaint_status = 'Pending' AND i.complaint_status = 'Assigned' AND i.employee_id IS NULL
                                 THEN 'Pending'
 
                             WHEN d.complaint_status= 'Pending' AND i.complaint_status = 'Assigned' AND
