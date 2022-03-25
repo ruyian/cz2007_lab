@@ -7,5 +7,5 @@ VALUES
 (N'Samsung'),
 (N'Tesco'),
 (N'Walmart'), 
-(N'Harvey Norman')
-
+(N'Harvey Norman'),
+(N'Courts');

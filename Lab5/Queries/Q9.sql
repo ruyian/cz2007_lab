@@ -28,7 +28,7 @@ WHERE (P1.product_name = P2.product_name AND P2.product_name = P3.product_name)
         OR ((P2.Year - P1.Year) = 1 AND P2.Year = P3.Year
                 AND P1.Month = 12 AND P2.Month = 1 AND P3.Month = 2) --e.g. Dec 2021, Jan 2022 and Feb 2022
         OR (P1.Year = P2.Year AND P2.Year = P3.Year
-                AND (P3.Month - P2.Month) = 1 AND (P2.Month - P1.Month) = 1) --any 3 consecutive months in 2020.
+                AND (P3.Month - P2.Month) = 1 AND (P2.Month - P1.Month) = 1) --any 3 consecutive months in 2021.
     )
   AND (P3.TotalQuantity > P2.TotalQuantity AND P2.TotalQuantity > P1.TotalQuantity);
 
