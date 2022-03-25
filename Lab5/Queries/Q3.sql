@@ -1,8 +1,11 @@
 -- For all products purchased in June 2021 that have been delivered, find the average time from the
 -- ordering date to the delivery date.
+-- Clarification: both 'order_placing_timestamp' and 'delivery_date' are timestamps with an accuracy of 1 milisecond
 
--- print average time of delivery in hours
+-- calculate average time of delivery in hours
 SELECT CAST(AVG(DATEDIFF(second, order_placing_timestamp, delivery_date)) AS FLOAT) / 3600 AS AvgTimeOnDelivery
+-- calculate average time of delivery in days
+-- SELECT CAST(AVG(DATEDIFF(day, order_placing_timestamp, delivery_date)) AS FLOAT)  AS AvgTimeOnDelivery 
 FROM orders,
      product_on_order
 WHERE orders.order_id = product_on_order.order_id
