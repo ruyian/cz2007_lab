@@ -8,7 +8,7 @@ FROM product
 WHERE maker = 'Samsung';
 
 -- Part(ii) --
-SELECT product_name, COUNT(DISTINCT shop_name) AS shopcount
+SELECT product_name, COUNT(DISTINCT shop_name) AS shop_count
 FROM product_in_shop
 WHERE product_name IN (
     SELECT product_name
