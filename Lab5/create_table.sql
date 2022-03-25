@@ -44,7 +44,7 @@ CREATE TABLE complaint
         Check (complaint_status = 'Pending' OR
                complaint_status = 'Assigned' OR
                complaint_status = 'Resolved'),
-    UserID               int          FOREIGN KEY REFERENCES users (user_id) ON DELETE SET NULL,
+    user_id               int          FOREIGN KEY REFERENCES users (user_id) ON DELETE SET NULL,
     employee_id                  int          FOREIGN KEY REFERENCES employee (employee_id) ON DELETE SET NULL,
     CHECK (file_timestamp <= assigned_timestamp AND
            assigned_timestamp <= resolved_timestamp)
@@ -232,7 +232,7 @@ CREATE TRIGGER NoUserUpdate
     AS
     IF UPDATE(user_id)
         BEGIN
-            ;THROW 51000, 'You cannot update the primary key UserID', 1;
+            ;THROW 51000, 'You cannot update the primary key user_id', 1;
         END
 GO
 CREATE TRIGGER NoEmployeeUpdate

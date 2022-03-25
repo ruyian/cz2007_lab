@@ -33,7 +33,7 @@ WITH A1 AS
              GROUP BY user_id
          )
 
--- Get the product name by matching UserID and the Product price
+-- Get the product name by matching user_id and the Product price
 SELECT t1.user_id, t2.product_name, t2.dealing_price
 FROM A4 as t1
          LEFT JOIN A3 as t2

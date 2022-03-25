@@ -6,7 +6,7 @@ CREATE VIEW ProductsInMonthYear AS
 (
 SELECT product_name, order_quantity, MONTH(order_placing_timestamp) AS Month, YEAR(order_placing_timestamp) AS Year
 FROM product_on_order
-         JOIN orders ON product_on_order.OID = orders.OID);
+         JOIN orders ON product_on_order.order_id = orders.order_id);
 
 GO
 -- view showing the total quantity of each product for per month, per year

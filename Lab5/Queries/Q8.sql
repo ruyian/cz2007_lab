@@ -1,14 +1,25 @@
 -- Find products that have never been purchased by some users, but are the top 5 most purchased
 -- products by other users in August 2021.
 
+DROP VIEW IF EXISTS UserCount
+DROP VIEW IF EXISTS NonTop1Products
+DROP VIEW IF EXISTS NonTop2Products
+DROP VIEW IF EXISTS NonTop3Products
+DROP VIEW IF EXISTS NonTop4Products
+DROP VIEW IF EXISTS NonTop5Products
+DROP VIEW IF EXISTS TopProducts
+DROP VIEW IF EXISTS UserCount
+DROP VIEW IF EXISTS AllProducts
+DROP VIEW IF EXISTS UniquePurchases
+
 GO
 CREATE VIEW AllProducts AS
 (
 SELECT product_name, SUM(order_quantity) AS TotalQuantity
 FROM product_on_order PIO
          JOIN orders O ON PIO.order_id = O.order_id AND
-                          (O.OrderDateTime >= '2021.08.01 00:00:00' AND
-                           O.OrderDateTime < '2021.09.01 00:00:00')
+                          (O.order_placing_timestamp >= '2021.08.01 00:00:00' AND
+                           O.order_placing_timestamp < '2021.09.01 00:00:00')
 GROUP BY product_name);
 
 GO
@@ -81,8 +92,8 @@ FROM (SELECT DISTINCT U.user_id, product_name
       FROM users U,
            orders O,
            product_on_order PIO
-      WHERE U.UserID = O.UserID
-        AND O.oID = PIO.oID) AS UniquePurchase
+      WHERE U.user_id = O.user_id
+        AND O.order_id = PIO.order_id) AS UniquePurchase
 GROUP BY product_name;
 
 GO

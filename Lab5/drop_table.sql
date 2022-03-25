@@ -23,3 +23,7 @@ DROP TABLE IF EXISTS product
 DROP TABLE IF EXISTS employee
 
 DROP TABLE IF EXISTS users
+
+
+-- query wise
+DROP TABLE IF EXISTS  good_products

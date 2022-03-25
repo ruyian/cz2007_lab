@@ -1,9 +1,13 @@
 -- Let us define the “latency” of an employee by the average that he/she takes to process a complaint.
 -- Find the employee with the smallest latency.
+DROP TABLE IF EXISTS LatencyRecord
 
-SELECT employee_id, AVG(DATEDIFF(second, resolved_timestamp, assigned_timestamp)) AS AvgLatency INTO LatencyRecord
+SELECT employee_id, AVG(DATEDIFF(second, file_timestamp, resolved_timestamp)) AS AvgLatency INTO LatencyRecord
 FROM complaint
 GROUP BY employee_id;
+
+SELECT *
+FROM LatencyRecord;
 
 SELECT employee_id
 FROM LatencyRecord

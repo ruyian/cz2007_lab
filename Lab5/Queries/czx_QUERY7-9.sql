@@ -1,12 +1,12 @@
 --Q7
 WITH users_with_most_complants AS 
 (
-SELECT USERID
+SELECT user_id
 FROM COMPLAINTS
-GROUP BY USERID
+GROUP BY user_id
 WHERE COUNT(*) = (SELECT MAX(COUNT(*)) as maxnumofcomplaints 
 		FROM COMPLAINTS
-		GROUP BY USERID)
+		GROUP BY user_id)
 );
 
 WITH top1complaint_1expensive_product AS
