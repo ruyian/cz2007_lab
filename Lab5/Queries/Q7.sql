@@ -1,6 +1,7 @@
 -- For users that made the most amount of complaints, find the most expensive products he/she has
 -- ever purchased.
 
+-- Clarification: all the steps are deemed necessary for the desired outcome
 -- Counts the total number of complaints each user has made
 WITH A1 AS(
     SELECT user_id, COUNT(user_id) as noOfComplaints
@@ -21,14 +22,13 @@ WITH A1 AS(
         SELECT t1.user_id, t2.order_id, t2.product_name, t2.dealing_price
         FROM A2 as t1 JOIN product_on_order as t2 
         ON t1.order_id = t2.order_id
-
     ),
     
     -- Find the most expensive product that each user in A3 has purchased
     A4 AS(
-             SELECT user_id, MAX(dealing_price) as maxProductPrice
-             FROM A3
-             GROUP BY user_id
+        SELECT user_id, MAX(dealing_price) as maxProductPrice
+        FROM A3
+        GROUP BY user_id
     )
 
 -- Get the product name by matching user_id and the Product price
