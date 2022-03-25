@@ -241,7 +241,7 @@ CREATE TRIGGER NoEmployeeUpdate
     AS
     IF UPDATE(employee_id)
         BEGIN
-            ;THROW 51000, 'You cannot update the primary key employeeID', 1;
+            ;THROW 51000, 'You cannot update the primary key employeemployee_id', 1;
         END
 GO
 CREATE TRIGGER NoOrderUpdate
