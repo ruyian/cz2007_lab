@@ -1,6 +1,6 @@
 -- Find products that received at least 100 ratings of “5” in August 2021, 
 -- and order them by their average ratings.
-
+Drop table if exists good_products
 
 -- create temporary table which stores product name with more than 100 ratings of "5"
 SELECT product_name
