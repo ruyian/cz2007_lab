@@ -1,3 +1,4 @@
+TRUNCATE TABLE feedback
 GO
 INSERT [dbo].[feedback] ([shop_name], [product_name], [order_id], [rating], [comment], [feedbackDate]) VALUES (N'iStudio', N'iPhone X', 1, 5, N'Item in perfect condition', CAST(N'2021-01-05T00:00:00.000' AS DateTime))
 INSERT [dbo].[feedback] ([shop_name], [product_name], [order_id], [rating], [comment], [feedbackDate]) VALUES (N'iStudio', N'iPhone XR', 1, 4, N'Item in good condition but box dented', CAST(N'2021-01-05T00:10:00.000' AS DateTime))
