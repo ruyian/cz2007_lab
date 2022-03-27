@@ -12,13 +12,14 @@ GROUP BY t1.product_name,
 )
 
 SELECT t1.product_name
-FROM Monthly_count AS t1, Monthly_count AS t2
+FROM Monthly_count AS t1, Monthly_count AS t2, Monthly_count AS t3
 WHERE t1.product_name = t2.product_name
    AND ( -- Deal with consecutive months
-      (t1.Purchased_year = t2.Purchased_year AND t1.Purchased_Month = t2.Purchased_Month + 1)
+      (t1.Purchased_year = t2.Purchased_year AND t2.Purchased_year = t3.Purchased_year AND t1.Purchased_Month = t2.Purchased_Month + 1 AND t2.Purchased_Month = t3.Purchased_Month + 1)
       OR
       (t1.Purchased_year = t2.Purchased_year + 1 AND t1.Purchased_Month = 1 AND t2.Purchased_Month = 12)
    )
    AND t1.Purchased_amount > t2.Purchased_amount
+   AND t2.Purchased_amount > t3.Purchased_amount
 GROUP BY t1.product_name
 HAVING count(t1.Purchased_Month) >= 3
