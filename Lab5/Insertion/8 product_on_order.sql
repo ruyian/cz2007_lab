@@ -1,4 +1,5 @@
-GO
+TRUNCATE TABLE product_on_order
+
 INSERT [dbo].[product_on_order] ([shop_name], [product_name], [order_id], [dealing_price ], [order_quantity], [product_on_order_status], [delivery_date]) VALUES (N'Adidas', N'Adidas Hoodie', 10, 20.0000, 1, N'delivered', CAST(N'2021-01-24T12:40:58.000' AS DateTime))
 INSERT [dbo].[product_on_order] ([shop_name], [product_name], [order_id], [dealing_price ], [order_quantity], [product_on_order_status], [delivery_date]) VALUES (N'Adidas', N'Adidas Hoodie', 36, 20.0000, 1, N'delivered', CAST(N'2021-02-23T13:40:58.000' AS DateTime))
 INSERT [dbo].[product_on_order] ([shop_name], [product_name], [order_id], [dealing_price ], [order_quantity], [product_on_order_status], [delivery_date]) VALUES (N'Adidas', N'Adidas Hoodie', 64, 20.0000, 1, N'delivered', CAST(N'2021-04-08T15:40:58.000' AS DateTime))

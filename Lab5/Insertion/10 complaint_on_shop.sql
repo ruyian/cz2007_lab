@@ -1,3 +1,4 @@
+TRUNCATE TABLE complaint_on_shop
 
 INSERT [dbo].[complaint_on_shop] ([complaint_id], [shop_name]) VALUES (1, N'Tesco')
 INSERT [dbo].[complaint_on_shop] ([complaint_id], [shop_name]) VALUES (2, N'Walmart')

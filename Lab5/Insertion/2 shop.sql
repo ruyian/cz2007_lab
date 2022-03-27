@@ -1,3 +1,5 @@
+TRUNCATE TABLE shop
+
 INSERT INTO shop(shop_name)
 VALUES
 ('Adidas'),

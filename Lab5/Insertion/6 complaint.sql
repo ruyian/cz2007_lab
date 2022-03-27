@@ -1,3 +1,5 @@
+TRUNCATE TABLE complaint
+
 SET IDENTITY_INSERT [dbo].[complaint] ON 
 
 INSERT [dbo].[complaint] ([complaint_id], [complain_description], [complaint_status], [file_timestamp], [user_id], [employee_id], [resolved_timestamp], [assigned_timestamp]) VALUES (1, N'Horrible Service.', N'Resolved', CAST(N'2021-08-03T00:00:00.000' AS DateTime), 4, 1, CAST(N'2021-09-03T22:00:00.000' AS DateTime), CAST(N'2021-09-03T22:00:00.000' AS DateTime))

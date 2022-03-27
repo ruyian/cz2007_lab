@@ -1,4 +1,5 @@
 TRUNCATE TABLE feedback
+
 GO
 INSERT [dbo].[feedback] ([shop_name], [product_name], [order_id], [rating], [comment], [feedbackDate]) VALUES (N'iStudio', N'iPhone XS', 141, 3, N'Great condition', CAST(N'2021-08-04T00:01:01.000' AS DateTime))
 INSERT [dbo].[feedback] ([shop_name], [product_name], [order_id], [rating], [comment], [feedbackDate]) VALUES (N'iStudio', N'iPhone XS', 142, 4, N'Great condition', CAST(N'2021-08-04T01:01:01.000' AS DateTime))
