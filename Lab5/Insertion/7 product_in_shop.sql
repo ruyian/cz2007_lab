@@ -43,3 +43,6 @@ INSERT [dbo].[product_in_shop] ([shop_name], [product_name], [price_in_shop], [q
 INSERT [dbo].[product_in_shop] ([shop_name], [product_name], [price_in_shop], [quantity]) VALUES (N'Walmart', N'Sealy Posturepedic Aspire', 5.0000, 10000)
 INSERT [dbo].[product_in_shop] ([shop_name], [product_name], [price_in_shop], [quantity]) VALUES (N'Adidas', N'Ultraboost Shoes', 200.0000, 5000)
 INSERT [dbo].[product_in_shop] ([shop_name], [product_name], [price_in_shop], [quantity]) VALUES (N'Royal Sporting House', N'Ultraboost Shoes', 200.0000, 5000)
+INSERT [dbo].[product_in_shop] ([shop_name], [product_name], [price_in_shop], [quantity]) VALUES (N'Challenger', N'iPhone X', 1000.0000, 5000)
+INSERT [dbo].[product_in_shop] ([shop_name], [product_name], [price_in_shop], [quantity]) VALUES (N'Challenger', N'iPhone XR', 1000.0000, 5000)
+INSERT [dbo].[product_in_shop] ([shop_name], [product_name], [price_in_shop], [quantity]) VALUES (N'Challenger', N'iPhone XS', 1200.0000, 5000)
