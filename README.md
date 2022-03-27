@@ -36,3 +36,6 @@ Use Visual Studio Code to access MsSQL server
 1. Install SQL extensions (search SQL and install the top 2 extensions)
 2. Use command "MS SQL: Add Connection" to connect MS server (access DSS2g2 database! not default)
 3. Store SQL scripts locally, run them using VS Code and check the result in server
+
+Presentation Slides:
+https://entuedu-my.sharepoint.com/:p:/g/personal/ran003_e_ntu_edu_sg/EUXkqypWoYBBnmA4wqqYHpoBpN45oD3nH39MaT27Oy2zug?e=4%3AmRKp0X&at=9
