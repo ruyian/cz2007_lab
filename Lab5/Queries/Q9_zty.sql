@@ -14,7 +14,7 @@ GROUP BY t1.product_name,
 SELECT t1.product_name
 FROM Monthly_count AS t1, Monthly_count AS t2
 WHERE t1.product_name = t2.product_name
-   AND (
+   AND ( -- Deal with consecutive months
       (t1.Purchased_year = t2.Purchased_year AND t1.Purchased_Month = t2.Purchased_Month + 1)
       OR
       (t1.Purchased_year = t2.Purchased_year + 1 AND t1.Purchased_Month = 1 AND t2.Purchased_Month = 12)
