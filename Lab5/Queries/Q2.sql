@@ -5,7 +5,7 @@ Drop table if exists good_products
 
 -- Clarification: in our implentation, the overall average ratings for desired products are found
 
--- create temporary table which stores product name with more than 100 ratings of "5"
+-- create temporary table "good_products" which stores product name with more than 100 ratings of "5"
 SELECT product_name
 INTO good_products
 FROM feedback
