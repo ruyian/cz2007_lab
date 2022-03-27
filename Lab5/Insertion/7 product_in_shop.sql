@@ -1,4 +1,4 @@
-TRUNCATE TABLE complaint_in_shop
+
 
 INSERT [dbo].[product_in_shop] ([shop_name], [product_name], [price_in_shop], [quantity]) VALUES (N'Adidas', N'Adidas Cap', 20.0000, 10000)
 INSERT [dbo].[product_in_shop] ([shop_name], [product_name], [price_in_shop], [quantity]) VALUES (N'Royal Sporting House', N'Adidas Cap', 20.0000, 5000)

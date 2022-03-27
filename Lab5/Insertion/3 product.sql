@@ -1,5 +1,3 @@
-TRUNCATE TABLE product
-
 INSERT [dbo].[product] ([product_name], [maker], [category]) VALUES (N'Adidas Cap', N'Adidas', N'Clothing')
 INSERT [dbo].[product] ([product_name], [maker], [category]) VALUES (N'Adidas Hoodie', N'Adidas', N'Clothing')
 INSERT [dbo].[product] ([product_name], [maker], [category]) VALUES (N'Apple - Northern Spy', N'NULL', N'Grocery')

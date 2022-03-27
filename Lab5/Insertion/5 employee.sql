@@ -1,5 +1,3 @@
-TRUNCATE TABLE employee
-
 SET IDENTITY_INSERT [dbo].[employee] ON 
 
 INSERT [dbo].[employee] ([employee_id], [employee_name], [salary]) VALUES (1, N'Josephine Tan', 2000.0000)

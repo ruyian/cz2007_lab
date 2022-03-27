@@ -1,4 +1,4 @@
-TRUNCATE TABLE complaint
+
 
 SET IDENTITY_INSERT [dbo].[complaint] ON 
 

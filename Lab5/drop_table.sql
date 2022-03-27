@@ -27,3 +27,5 @@ DROP TABLE IF EXISTS users
 
 -- query wise
 DROP TABLE IF EXISTS  good_products
+
+DROP TABLE IF EXISTS  LatencyRecord

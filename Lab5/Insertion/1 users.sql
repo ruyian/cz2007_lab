@@ -1,5 +1,3 @@
-TRUNCATE TABLE users
-
 SET IDENTITY_INSERT [dbo].[users] ON 
 
 INSERT [dbo].[users] ([user_id], [user_name]) VALUES (1, N'aluckham0')

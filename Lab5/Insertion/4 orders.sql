@@ -1,5 +1,4 @@
-TRUNCATE TABLE orders
-
+GO
 SET IDENTITY_INSERT [dbo].[orders] ON 
 
 INSERT [dbo].[orders] ([order_id],[total_shipping_cost],[shipping_addr], [order_placing_timestamp], [user_id]) VALUES (1,50.00, N'4338 Rutledge Junction', CAST(N'2021-01-02T00:00:00.000' AS DateTime), 1)
