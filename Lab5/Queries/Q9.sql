@@ -1,4 +1,6 @@
 -- Find products that are increasingly being purchased over at least 3 months.
+DROP VIEW IF EXISTS ProductsInMonthYear 
+DROP VIEW IF EXISTS PdtMonthlySales
 
 GO
 -- create a view of the products sold, their quantities, month and year
