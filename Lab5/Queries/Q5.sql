@@ -10,3 +10,10 @@ WHERE product_name IN (
     WHERE maker = 'Samsung'
 )
 GROUP BY product_name
+
+/*
+-- Proof Check 
+SELECT product_name
+FROM product
+WHERE maker = 'Samsung'
+*/

@@ -1,5 +1,5 @@
 -- Find shops that made the most revenue in August 2021.
-SELECT TOP 1 t2.shop_name, SUM(t2.dealing_price * t2.order_quantity) AS revenue
+SELECT TOP 1 WITH TIES t2.shop_name, SUM(t2.dealing_price * t2.order_quantity) AS revenue
 FROM orders as t1 JOIN product_on_order as t2
 ON t1.order_id = t2.order_id
 WHERE YEAR(t1.order_placing_timestamp) = 2021 

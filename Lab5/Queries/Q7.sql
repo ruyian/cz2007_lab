@@ -3,18 +3,21 @@
 
 -- Clarification: all the steps are deemed necessary for the desired outcome
 -- Counts the total number of complaints each user has made
+
 WITH A1 AS(
-    SELECT user_id, COUNT(user_id) as noOfComplaints
+    -- Select the users that have made the most complaints
+    SELECT TOP 1 WITH TIES user_id, COUNT(user_id) as noOfComplaints
     FROM complaint
     GROUP BY user_id
+    ORDER BY noOfComplaints DESC
     ),
     
+    -- Split to subqueries for efficiency
     -- Select the users in A1 that has made the most complaints and their orderID
     A2 AS(
         SELECT t1.user_id, t2.order_id
-        FROM A1 as t1 JOIN orders as t2 
+        FROM A1 as t1 JOIN orders as t2
         ON t1.user_id = t2.user_id
-        WHERE noOfComplaints = (SELECT MAX(noOfComplaints) FROM A1)
     ),
     
     -- Find all products that these users in A2 has ever purchased
