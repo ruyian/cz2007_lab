@@ -9,6 +9,6 @@ SELECT ROUND(AVG(CAST(DATEDIFF(second, order_placing_timestamp, delivery_date) A
 FROM orders,
      product_on_order
 WHERE orders.order_id = product_on_order.order_id
-  AND order_placing_timestamp >= '2021-06-01 00:00:00'
-  AND order_placing_timestamp < '2021-07-01 00:00:00'
-  AND (product_on_order_status = 'delivered' OR product_on_order_status = 'returned');
+  AND order_placing_timestamp >= '2021-06-01 00:00:00' -- start from 06.01
+  AND order_placing_timestamp < '2021-07-01 00:00:00' -- until 07.01 (07.01 not included)
+  AND (product_on_order_status = 'delivered' OR product_on_order_status = 'returned'); 
