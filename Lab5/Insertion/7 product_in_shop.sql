@@ -1,4 +1,4 @@
-
+TRUNCATE table product_in_shop
 
 INSERT [dbo].[product_in_shop] ([shop_name], [product_name], [price_in_shop], [quantity]) VALUES (N'Adidas', N'Adidas Cap', 20.0000, 10000)
 INSERT [dbo].[product_in_shop] ([shop_name], [product_name], [price_in_shop], [quantity]) VALUES (N'Royal Sporting House', N'Adidas Cap', 20.0000, 5000)
@@ -13,7 +13,7 @@ INSERT [dbo].[product_in_shop] ([shop_name], [product_name], [price_in_shop], [q
 INSERT [dbo].[product_in_shop] ([shop_name], [product_name], [price_in_shop], [quantity]) VALUES (N'Samsung', N'Galaxy S9+', 950.0000, 2000)
 INSERT [dbo].[product_in_shop] ([shop_name], [product_name], [price_in_shop], [quantity]) VALUES (N'Samsung', N'Samsung LCD TV',5000.0000, 2000)
 INSERT [dbo].[product_in_shop] ([shop_name], [product_name], [price_in_shop], [quantity]) VALUES (N'Samsung', N'Samsung Galaxy Tab S5', 800.0000, 2000)
-INSERT [dbo].[product_in_shop] ([shop_name], [product_name], [price_in_shop], [quantity]) VALUES (N'Samsung', N'Galaxy Note 10', 1800.0000, 2000)
+-- INSERT [dbo].[product_in_shop] ([shop_name], [product_name], [price_in_shop], [quantity]) VALUES (N'Samsung', N'Galaxy Note 10', 1800.0000, 2000)
 INSERT [dbo].[product_in_shop] ([shop_name], [product_name], [price_in_shop], [quantity]) VALUES (N'Tesco', N'Glass Cup', 5000.0000, 10000)
 INSERT [dbo].[product_in_shop] ([shop_name], [product_name], [price_in_shop], [quantity]) VALUES (N'Walmart', N'Glass Cup', 5000.0000, 10000)
 INSERT [dbo].[product_in_shop] ([shop_name], [product_name], [price_in_shop], [quantity]) VALUES (N'Tesco', N'Huawei P40', 999.0000, 10000)
