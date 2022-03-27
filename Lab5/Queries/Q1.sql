@@ -5,4 +5,4 @@ FROM price_history
 WHERE product_name = 'iPhone X'
   AND ((start_date >= '2021.08.01 00:00:00' AND start_date < '2021.09.01 00:00:00')
     OR (end_date >= '2021.08.01 00:00:00' AND end_date < '2021.09.01 00:00:00'))
-GROUP BY product_name; -- Additional Group By clause added to print the product name
+GROUP BY product_name; -- Additional Group By clause added to print the product name 'iPhone X'
