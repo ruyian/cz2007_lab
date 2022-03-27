@@ -252,3 +252,12 @@ CREATE TRIGGER NoOrderUpdate
         BEGIN
             ;THROW 51000, 'You cannot update the primary key orderID', 1;
         END
+
+CREATE TRIGGER NoComplaintIDUpdate
+    ON complaint
+    AFTER UPDATE
+    AS
+    IF UPDATE(complaint_id)
+        BEGIN
+            ;THROW 51000, 'You cannot update the primary key orderID', 1;
+        END
